@@ -1,8 +1,17 @@
 <template>
   <div id="app">
+    <side-bar />
     <router-view />
   </div>
 </template>
+
+<script>
+import SideBar from "./components/SideBar.vue";
+
+export default {
+  components: { SideBar },
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -11,18 +20,18 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
 }
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+ul,
+li {
+  list-style: none;
 }
 </style>
