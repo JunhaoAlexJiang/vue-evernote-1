@@ -1,6 +1,7 @@
 <template>
   <div class="sideBar">
     <nav class="icons">
+      <user-avatar />
       <router-link to="/note/1">笔记</router-link>
       <router-link to="/notebook"> 笔记本 </router-link>
       <router-link to="/trash/1">回收站</router-link>
@@ -10,7 +11,9 @@
 </template>
 
 <script>
+import UserAvatar from "./UserAvatar.vue";
 export default {
+  components: { UserAvatar },
   data() {
     return {};
   },
