@@ -4,19 +4,27 @@
       <div class="modal-container">
         <div class="main"></div>
         <div class="form">
-          <h3>创建账号</h3>
-          <div class="register" v-show="true">
-            <input type="text" placeholder="账号" />
-            <input type="password" placeholder="密码" />
-            <p>创建账号后,请记住账号和密码</p>
-            <div class="button">创建账号</div>
+          <h3 @click="showRegister">创建账号</h3>
+          <div class="register" v-show="isShowRegister">
+            <input type="text" placeholder="账号" v-model="register.username" />
+            <input
+              type="password"
+              placeholder="密码"
+              v-model="register.password"
+            />
+            <p :class="{ error: register.isError }">{{ register.notice }}</p>
+            <public-button content="创建账号" @click.native="onRegister" />
           </div>
-          <h3>登录</h3>
-          <div class="login" v-show="true">
-            <input type="text" placeholder="账号" />
-            <input type="password" placeholder="密码" />
-            <p>输入账号和密码</p>
-            <div class="button">登录</div>
+          <h3 @click="showLogin">登录</h3>
+          <div class="login" v-show="isShowLogin">
+            <input type="text" placeholder="账号" v-model="login.username" />
+            <input
+              type="password"
+              placeholder="密码"
+              v-model="login.password"
+            />
+            <p :class="{ error: login.isError }">{{ login.notice }}</p>
+            <public-button @click.native="onLogin" content="登录" />
           </div>
         </div>
       </div>
@@ -25,13 +33,94 @@
 </template>
 
 <script>
-export default {};
+import PublicButton from "./PublicButton.vue";
+export default {
+  components: { PublicButton },
+  data() {
+    return {
+      isShowRegister: false,
+      isShowLogin: true,
+      login: {
+        username: "",
+        password: "",
+        notice: "请输入账号和密码",
+        isError: false,
+      },
+      register: {
+        username: "",
+        password: "",
+        notice: "创建账号后请记住账号和密码",
+        isError: false,
+      },
+    };
+  },
+  methods: {
+    //切换功能
+    showRegister() {
+      this.isShowRegister = true;
+      this.isShowLogin = false;
+    },
+    showLogin() {
+      this.isShowRegister = false;
+      this.isShowLogin = true;
+    },
+
+    //登录功能
+    onLogin() {
+      const usernameResult = this.validUserName(this.login.username);
+      const passwordResult = this.validPassword(this.login.password);
+      if (!usernameResult.isValid) {
+        this.login.isError = true;
+        this.login.notice = usernameResult.notice;
+        return;
+      }
+      if (!passwordResult.isValid) {
+        this.login.isError = true;
+        this.login.notice = passwordResult.notice;
+        return;
+      }
+      this.login.isError = false;
+      this.login.notice = "";
+    },
+
+    onRegister() {
+      const usernameResult = this.validUserName(this.register.username);
+      const passwordResult = this.validPassword(this.register.password);
+      if (!usernameResult.isValid) {
+        this.register.isError = true;
+        this.register.notice = usernameResult.notice;
+        return;
+      }
+      if (!passwordResult.isValid) {
+        this.register.isError = true;
+        this.register.notice = passwordResult.notice;
+        return;
+      }
+      this.register.isError = false;
+      this.register.notice = "";
+    },
+
+    //数据校验
+    validUserName(username) {
+      return {
+        isValid: /^[\w\u4e00-\u9fa5]{3,15}$/.test(username),
+        notice: "账号3~15个字符,仅限于字母数字下划线中文",
+      };
+    },
+    validPassword(password) {
+      return {
+        isValid: /^.{6,16}$/.test(password),
+        notice: "密码长度为6~16个字符",
+      };
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .modal-mask {
   position: fixed;
-  //   z-index: 100;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -80,17 +169,6 @@ export default {};
   border-top: 1px solid #eee;
 }
 
-.button {
-  background-color: #2bb964;
-  height: 36px;
-  line-height: 36px;
-  text-align: center;
-  font-weight: bold;
-  color: #fff;
-  border-radius: 4px;
-  margin-top: 18px;
-  cursor: pointer;
-}
 input {
   display: block;
   width: 100%;
@@ -111,5 +189,8 @@ p {
   margin-top: 10px;
   color: #444;
   text-align: left;
+}
+.error {
+  color: red;
 }
 </style>
