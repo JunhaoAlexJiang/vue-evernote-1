@@ -1,9 +1,115 @@
 <template>
-  <div>hi</div>
+  <div>
+    <div class="modal-mask">
+      <div class="modal-container">
+        <div class="main"></div>
+        <div class="form">
+          <h3>创建账号</h3>
+          <div class="register" v-show="true">
+            <input type="text" placeholder="账号" />
+            <input type="password" placeholder="密码" />
+            <p>创建账号后,请记住账号和密码</p>
+            <div class="button">创建账号</div>
+          </div>
+          <h3>登录</h3>
+          <div class="login" v-show="true">
+            <input type="text" placeholder="账号" />
+            <input type="password" placeholder="密码" />
+            <p>输入账号和密码</p>
+            <div class="button">登录</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.modal-mask {
+  position: fixed;
+  //   z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-container {
+  display: flex;
+  width: 800px;
+  height: 500px;
+  margin: 0px auto;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+}
+.main {
+  flex-grow: 1;
+  border-radius: 2px 0 0 2px;
+  background: #36bc64
+    url(https://cloud.hunger-valley.com/17-12-13/38476998.jpg-middle) center
+    center no-repeat;
+  background-size: contain;
+}
+.form {
+  width: 270px;
+  border-left: 1px solid #ccc;
+  h3 {
+    padding: 10px 20px;
+    font-weight: 100px;
+    font-size: 16px;
+    text-align: left;
+    border-top: 1px solid #eee;
+    cursor: pointer;
+    &:nth-of-type(2) {
+      border-bottom: 1px solid #eee;
+    }
+  }
+}
+.login,
+.register {
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
+}
+
+.button {
+  background-color: #2bb964;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 4px;
+  margin-top: 18px;
+  cursor: pointer;
+}
+input {
+  display: block;
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+  margin-top: 10px;
+}
+input:focus {
+  border: 3px solid #9dcaf8;
+}
+p {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #444;
+  text-align: left;
+}
+</style>
