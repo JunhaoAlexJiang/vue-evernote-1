@@ -5,27 +5,35 @@
         <div class="main"></div>
         <div class="form">
           <h3 @click="showRegister">创建账号</h3>
-          <div class="register" v-show="isShowRegister">
-            <input type="text" placeholder="账号" v-model="register.username" />
-            <input
-              type="password"
-              placeholder="密码"
-              v-model="register.password"
-            />
-            <p :class="{ error: register.isError }">{{ register.notice }}</p>
-            <public-button content="创建账号" @click.native="onRegister" />
-          </div>
+          <transition name="fade">
+            <div class="register" :class="{ show: isShowRegister }">
+              <input
+                type="text"
+                placeholder="账号"
+                v-model="register.username"
+              />
+              <input
+                type="password"
+                placeholder="密码"
+                v-model="register.password"
+              />
+              <p :class="{ error: register.isError }">{{ register.notice }}</p>
+              <public-button content="创建账号" @click.native="onRegister" />
+            </div>
+          </transition>
           <h3 @click="showLogin">登录</h3>
-          <div class="login" v-show="isShowLogin">
-            <input type="text" placeholder="账号" v-model="login.username" />
-            <input
-              type="password"
-              placeholder="密码"
-              v-model="login.password"
-            />
-            <p :class="{ error: login.isError }">{{ login.notice }}</p>
-            <public-button @click.native="onLogin" content="登录" />
-          </div>
+          <transition name="fade">
+            <div class="login" :class="{ show: isShowLogin }">
+              <input type="text" placeholder="账号" v-model="login.username" />
+              <input
+                type="password"
+                placeholder="密码"
+                v-model="login.password"
+              />
+              <p :class="{ error: login.isError }">{{ login.notice }}</p>
+              <public-button @click.native="onLogin" content="登录" />
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -165,8 +173,15 @@ export default {
 }
 .login,
 .register {
-  padding: 10px 20px;
+  padding: 0px 20px;
   border-top: 1px solid #eee;
+  //切换过渡动画
+  height: 0;
+  overflow: hidden;
+  transition: height 0.2s;
+  &.show {
+    height: 193px;
+  }
 }
 
 input {
