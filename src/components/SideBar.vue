@@ -12,10 +12,19 @@
 
 <script>
 import UserAvatar from "./UserAvatar.vue";
+import Auth from "@/apis/auth";
 export default {
   components: { UserAvatar },
   data() {
     return {};
+  },
+  methods: {
+    onLogout() {
+      //和后端交互
+      Auth.logout().then((data) => {
+        console.log(data);
+      });
+    },
   },
 };
 </script>
