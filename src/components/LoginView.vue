@@ -42,6 +42,13 @@
 
 <script>
 import PublicButton from "./PublicButton.vue";
+import request from "@/helper/request";
+request("auth/login", "POST", { username: "hunger", password: "123456" }).then(
+  (data) => {
+    console.log(data);
+  }
+);
+
 export default {
   components: { PublicButton },
   data() {
@@ -91,6 +98,7 @@ export default {
       this.login.notice = "";
     },
 
+    //注册功能
     onRegister() {
       const usernameResult = this.validUserName(this.register.username);
       const passwordResult = this.validPassword(this.register.password);
@@ -106,6 +114,12 @@ export default {
       }
       this.register.isError = false;
       this.register.notice = "";
+      // request("/auth/register", "POST", {
+      //   username: this.register.username,
+      //   password: this.register.password,
+      // }).then((data) => {
+      //   console.log(data);
+      // });
     },
 
     //数据校验
