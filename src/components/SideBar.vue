@@ -21,8 +21,8 @@ export default {
   methods: {
     onLogout() {
       //和后端交互
-      Auth.logout().then((data) => {
-        console.log(data);
+      Auth.logout().then(() => {
+        this.$router.push({ path: "/login" });
       });
     },
   },

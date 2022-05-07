@@ -44,9 +44,9 @@
 import PublicButton from "./PublicButton.vue";
 import Auth from "@/apis/auth";
 //维持登录状态
-Auth.getInfo().then((data) => {
-  console.log(data);
-});
+// Auth.getInfo().then((data) => {
+//   console.log(data);
+// });
 
 export default {
   components: { PublicButton },
@@ -68,6 +68,18 @@ export default {
       },
     };
   },
+
+  created() {
+    // 按 Enter 键登录系统
+    document.onkeydown = (e) => {
+      e = window.event || e;
+      if (e.keyCode === 13) {
+        this.onLogin();
+        this.onRegister();
+      }
+    };
+  },
+
   methods: {
     //切换功能
     showRegister() {
@@ -93,15 +105,21 @@ export default {
         this.login.notice = passwordResult.notice;
         return;
       }
-      this.login.isError = false;
-      this.login.notice = "";
-      //提取后端数据
+
+      //与后端交互实现注登录功能
       Auth.login({
         username: this.login.username,
         password: this.login.password,
-      }).then((data) => {
-        console.log(data);
-      });
+      })
+        .then(() => {
+          this.login.isError = false;
+          this.login.notice = "";
+          this.$router.push({ path: "/notebook" });
+        })
+        .catch((data) => {
+          this.login.isError = true;
+          this.login.notice = data.msg;
+        });
     },
 
     //注册功能
@@ -118,15 +136,22 @@ export default {
         this.register.notice = passwordResult.notice;
         return;
       }
-      this.register.isError = false;
-      this.register.notice = "";
-      //提交数据到后端
+
+      //与后端交互实现注册功能
       Auth.register({
         username: this.register.username,
         password: this.register.password,
-      }).then((data) => {
-        console.log(data);
-      });
+      })
+        .then((data) => {
+          console.log(data);
+          this.register.isError = false;
+          this.register.notice = "";
+          this.$router.go(0);
+        })
+        .catch((data) => {
+          this.register.isError = true;
+          this.register.notice = data.msg;
+        });
     },
 
     //数据校验
