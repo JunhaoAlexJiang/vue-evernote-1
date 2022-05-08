@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import LoginView from "@/views/LoginView";
-import NoteList from "@/views/NoteList";
-import NoteDetail from "@/views/NoteDetail";
-import TrashCenter from "@/views/TrashCenter";
+import NoteListView from "@/views/NoteListView";
+import NoteDetailView from "@/views/NoteDetailView";
+import TrashCenterView from "@/views/TrashCenterView";
 
 Vue.use(VueRouter);
 
@@ -18,15 +18,15 @@ const routes = [
   },
   {
     path: "/notebook",
-    component: NoteList,
+    component: NoteListView,
   },
   {
     path: "/note/:noteId",
-    component: NoteDetail,
+    component: NoteDetailView,
   },
   {
     path: "/trash/:noteId",
-    component: TrashCenter,
+    component: TrashCenterView,
   },
 ];
 
