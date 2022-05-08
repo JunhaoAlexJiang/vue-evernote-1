@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import LoginView from "@/components/LoginView";
-import NoteList from "@/components/NoteList";
-import NoteDetail from "@/components/NoteDetail";
-import TrashCenter from "@/components/TrashCenter";
+import LoginView from "@/views/LoginView";
+import NoteList from "@/views/NoteList";
+import NoteDetail from "@/views/NoteDetail";
+import TrashCenter from "@/views/TrashCenter";
 
 Vue.use(VueRouter);
 

@@ -13,6 +13,7 @@
 <script>
 import UserAvatar from "./UserAvatar.vue";
 import Auth from "@/apis/auth";
+import bus from "@/helper/bus";
 export default {
   components: { UserAvatar },
   data() {
@@ -20,6 +21,8 @@ export default {
   },
   methods: {
     onLogout() {
+      //传数据给UserAvatar组件
+      bus.$emit("userLogout", { username: "未登录" });
       //和后端交互
       Auth.logout().then(() => {
         this.$router.push({ path: "/login" });

@@ -41,12 +41,9 @@
 </template>
 
 <script>
-import PublicButton from "./PublicButton.vue";
+import PublicButton from "../components/PublicButton.vue";
 import Auth from "@/apis/auth";
-//维持登录状态
-// Auth.getInfo().then((data) => {
-//   console.log(data);
-// });
+import Bus from "@/helper/bus";
 
 export default {
   components: { PublicButton },
@@ -105,6 +102,9 @@ export default {
         this.login.notice = passwordResult.notice;
         return;
       }
+
+      //传递数据给UserAvatar
+      Bus.$emit("userInfo", this.login.username);
 
       //与后端交互实现注登录功能
       Auth.login({
