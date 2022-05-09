@@ -1,27 +1,15 @@
 <template>
-  <div class="noteList">
-    <h1>
-      {{ msg }}
-    </h1>
-    <ul>
-      <li>
-        <router-link to="/note/1"> 笔记1 </router-link>
-      </li>
-      <li>
-        <router-link to="/note/2"> 笔记2 </router-link>
-      </li>
-    </ul>
-  </div>
+  <note-list />
 </template>
 
 <script>
 import auth from "@/apis/auth";
+import NoteList from "@/components/NoteList.vue";
 
 export default {
+  components: { NoteList },
   data() {
-    return {
-      msg: "笔记列表",
-    };
+    return {};
   },
   created() {
     auth.getInfo().then((res) => {
