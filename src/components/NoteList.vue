@@ -25,7 +25,7 @@
               <span class="action" @click.stop.prevent="onDelete(note)"
                 >删除</span
               >
-              <span class="date">3天前</span>
+              <span class="date">{{ note.friendlyCreatedAt }}</span>
             </div>
           </router-link>
         </div>
@@ -36,6 +36,7 @@
 
 <script>
 import notebooks from "@/apis/notebooks";
+import { friendlyDate } from "@/helper/time";
 
 export default {
   data() {
@@ -46,6 +47,7 @@ export default {
   created() {
     //渲染数据库数据
     notebooks.getALL().then((res) => {
+      console.log(res.data);
       this.noteList = res.data;
     });
   },
@@ -58,6 +60,8 @@ export default {
         return;
       }
       notebooks.addNotebook({ title }).then((res) => {
+        console.log(res);
+        res.data.friendlyCreatedAt = friendlyDate(res.data.createdAt);
         this.noteList.unshift(res.data);
       });
     },
