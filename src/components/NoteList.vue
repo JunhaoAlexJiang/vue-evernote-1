@@ -1,21 +1,33 @@
 <template>
   <div class="detail" id="notebook-list">
     <header>
-      <a href="#" class="btn"> <i class="iconFont icon-plus"></i>新建笔记本 </a>
+      <a href="#" class="btn" @click="onAddNote">
+        <i class="iconFont icon-plus"></i>新建笔记本
+      </a>
     </header>
     <main>
       <div class="layout">
-        <h3>笔记本列表(10)</h3>
+        <h3>笔记本列表({{ noteList.length }})</h3>
         <div class="book-list">
-          <a href="#" class="notebook">
+          <router-link
+            v-for="note in noteList"
+            :key="note.id"
+            to="/note/1"
+            class="notebook"
+          >
             <div>
-              <span class="iconFont icon-notebook"></span>笔记本标题1
-              <span>3</span>
-              <span class="action">编辑</span>
-              <span class="action">删除</span>
+              <span class="iconFont icon-notebook"></span>
+              {{ note.title }}
+              <span>{{ note.noteCounts }}</span>
+              <span class="action" @click.stop.prevent="onEdit(note)"
+                >编辑</span
+              >
+              <span class="action" @click.stop.prevent="onDelete(note)"
+                >删除</span
+              >
               <span class="date">3天前</span>
             </div>
-          </a>
+          </router-link>
         </div>
       </div>
     </main>
@@ -23,11 +35,55 @@
 </template>
 
 <script>
+import notebooks from "@/apis/notebooks";
+
 export default {
   data() {
     return {
       noteList: [],
     };
+  },
+  created() {
+    //渲染数据库数据
+    notebooks.getALL().then((res) => {
+      this.noteList = res.data;
+    });
+  },
+  methods: {
+    //新增笔记按钮功能实现
+    onAddNote() {
+      let title = window.prompt("创建笔记本");
+      if (title.trim() === "") {
+        alert("笔记本名不能为空");
+        return;
+      }
+      notebooks.addNotebook({ title }).then((res) => {
+        this.noteList.unshift(res.data);
+      });
+    },
+
+    //编辑笔记按钮功能实现
+    onEdit(note) {
+      let title = window.prompt("修改标题", note.title);
+      notebooks.updateNotebook(note.id, { title }).then(() => {
+        note.title = title;
+      });
+    },
+
+    //删除笔记按钮功能实现
+    onDelete(note) {
+      let isConfirm = window.confirm("你确定要删除吗?");
+      if (isConfirm) {
+        notebooks
+          .deleteNotebook(note.id)
+          .then(() => {
+            this.noteList.splice(this.noteList.indexOf(note), 1);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
   },
 };
 </script>
