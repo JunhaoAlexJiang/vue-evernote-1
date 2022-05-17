@@ -2,7 +2,7 @@
   <div class="detail" id="notebook-list">
     <header>
       <a href="#" class="btn" @click="onAddNote">
-        <i class="iconFont icon-plus"></i>新建笔记本
+        <i class="el-icon-plus"></i>新建笔记本
       </a>
     </header>
     <main>
@@ -16,7 +16,7 @@
             class="notebook"
           >
             <div>
-              <span class="iconFont icon-notebook"></span>
+              <span class="el-icon-notebook-2"></span>
               {{ note.title }}
               <span>{{ note.noteCounts }}</span>
               <span class="action" @click.stop.prevent="onEdit(note)"
@@ -99,6 +99,8 @@ export default {
   flex: 1;
 
   .btn {
+    background: #fff;
+    padding: 6px;
     font-size: 12px;
     color: #666;
     cursor: pointer;

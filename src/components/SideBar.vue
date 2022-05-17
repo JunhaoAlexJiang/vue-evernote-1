@@ -2,11 +2,19 @@
   <div class="sideBar">
     <nav class="icons">
       <user-avatar />
-      <router-link to="/note/1">笔记</router-link>
-      <router-link to="/notebook"> 笔记本 </router-link>
-      <router-link to="/trash/1">回收站</router-link>
+      <router-link class="el-icon-notebook-2" title="笔记" to="/note/1">
+      </router-link>
+      <router-link class="el-icon-notebook-1" title="笔记列表" to="/notebook">
+      </router-link>
+      <router-link
+        class="el-icon-delete-solid"
+        title="回收站"
+        to="/trash/1"
+      ></router-link>
     </nav>
-    <div class="logout" @click="onLogout">登出</div>
+    <div class="logout" title="登出" @click="onLogout">
+      <i class="el-icon-switch-button"></i>
+    </div>
   </div>
 </template>
 
@@ -40,6 +48,7 @@ export default {
   background: #2c333c;
   width: 56px;
   height: 100vh;
+  font-size: 28px;
   > .icons {
     display: flex;
     flex-direction: column;
