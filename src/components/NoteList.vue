@@ -82,6 +82,7 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         inputPattern: /^.{1,30}$/,
+        inputValue: note.title,
         inputErrorMessage: "标题不能为空,且不超过30个字符",
       })
         .then(({ value }) => {
