@@ -47,46 +47,71 @@ export default {
   created() {
     //渲染数据库数据
     notebooks.getALL().then((res) => {
-      console.log(res.data);
       this.noteList = res.data;
     });
   },
   methods: {
     //新增笔记按钮功能实现
     onAddNote() {
-      let title = window.prompt("创建笔记本");
-      if (title.trim() === "") {
-        alert("笔记本名不能为空");
-        return;
-      }
-      notebooks.addNotebook({ title }).then((res) => {
-        console.log(res);
-        res.data.friendlyCreatedAt = friendlyDate(res.data.createdAt);
-        this.noteList.unshift(res.data);
-      });
+      let title = "";
+
+      this.$prompt("输入笔记本标题", "创建笔记本", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /^.{1,30}$/,
+        inputErrorMessage: "标题不能为空,且不超过30个字符",
+      })
+        .then(({ value }) => {
+          title = value;
+          return notebooks.addNotebook({ title });
+        })
+        .then((res) => {
+          res.data.friendlyCreatedAt = friendlyDate(res.data.createdAt);
+          this.noteList.unshift(res.data);
+          this.$message({
+            type: "success",
+            message: res.msg,
+          });
+        });
     },
 
     //编辑笔记按钮功能实现
     onEdit(note) {
-      let title = window.prompt("修改标题", note.title);
-      notebooks.updateNotebook(note.id, { title }).then(() => {
-        note.title = title;
-      });
+      let title = "";
+      this.$prompt("输入新的笔记本标题", "修改笔记本标题", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /^.{1,30}$/,
+        inputErrorMessage: "标题不能为空,且不超过30个字符",
+      })
+        .then(({ value }) => {
+          title = value;
+          return notebooks.updateNotebook(note.id, { title });
+        })
+        .then((res) => {
+          note.title = title;
+          this.$message({
+            type: "success",
+            message: res.msg,
+          });
+        });
     },
 
     //删除笔记按钮功能实现
     onDelete(note) {
-      let isConfirm = window.confirm("你确定要删除吗?");
-      if (isConfirm) {
-        notebooks
-          .deleteNotebook(note.id)
-          .then(() => {
-            this.noteList.splice(this.noteList.indexOf(note), 1);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      this.$confirm("删除该笔记,是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.$message({
+          type: "success",
+          message: "删除成功!",
+        });
+        notebooks.deleteNotebook(note.id).then(() => {
+          this.noteList.splice(this.noteList.indexOf(note), 1);
+        });
+      });
     },
   },
 };
