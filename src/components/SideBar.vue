@@ -2,14 +2,14 @@
   <div class="sideBar">
     <nav class="icons">
       <user-avatar />
-      <router-link class="el-icon-notebook-2" title="笔记" to="/note/1">
+      <router-link class="el-icon-notebook-2" title="笔记" to="/note">
       </router-link>
       <router-link class="el-icon-notebook-1" title="笔记列表" to="/notebook">
       </router-link>
       <router-link
         class="el-icon-delete-solid"
         title="回收站"
-        to="/trash/1"
+        to="/trash"
       ></router-link>
     </nav>
     <div class="logout" title="登出" @click="onLogout">

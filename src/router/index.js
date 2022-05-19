@@ -21,11 +21,11 @@ const routes = [
     component: NoteListView,
   },
   {
-    path: "/note/:noteId",
+    path: "/note",
     component: NoteDetailView,
   },
   {
-    path: "/trash/:noteId",
+    path: "/trash",
     component: TrashCenterView,
   },
 ];

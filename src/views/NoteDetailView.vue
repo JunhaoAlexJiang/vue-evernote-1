@@ -1,6 +1,6 @@
 <template>
   <div class="noteDetail">
-    <h1>{{ msg }}:{{ $route.params.noteId }}</h1>
+    <h1>{{ msg }}:{{ $route.query.noteId }}</h1>
   </div>
 </template>
 

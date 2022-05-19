@@ -12,7 +12,7 @@
           <router-link
             v-for="note in noteList"
             :key="note.id"
-            to="/note/1"
+            :to="`/note?noteId=${note.id}`"
             class="notebook"
           >
             <div>
@@ -48,6 +48,7 @@ export default {
     //渲染数据库数据
     notebooks.getALL().then((res) => {
       this.noteList = res.data;
+      console.log(res.data);
     });
   },
   methods: {
