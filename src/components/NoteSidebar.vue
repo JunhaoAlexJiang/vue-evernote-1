@@ -7,7 +7,7 @@
       placement="bottom"
     >
       <span class="el-dropdown-link">
-        我的笔记本1 <i class="iconfont icon-down"></i>
+        我的笔记本1 <i class="el-icon-arrow-down"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
