@@ -35,22 +35,16 @@
 </template>
 
 <script>
+import Notebooks from "@/apis/notebooks";
 export default {
   created() {
-    console.log("1");
+    Notebooks.getALL().then((res) => {
+      this.notebooks = res.data;
+    });
   },
   data() {
     return {
-      notebooks: [
-        {
-          id: 1,
-          title: "hello1",
-        },
-        {
-          id: 2,
-          title: "hello2",
-        },
-      ],
+      notebooks: [],
       notes: [
         {
           id: 11,
