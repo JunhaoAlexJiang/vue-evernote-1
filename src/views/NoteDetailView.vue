@@ -1,15 +1,16 @@
 <template>
   <div class="noteDetail">
     <note-sidebar />
-    <h1>{{ msg }}:{{ $route.query.notebookId }}</h1>
+    <note-detail />
   </div>
 </template>
 
 <script>
 import auth from "@/apis/auth";
 import NoteSidebar from "@/components/NoteSidebar.vue";
+import NoteDetail from "@/components/NoteDetail.vue";
 export default {
-  components: { NoteSidebar },
+  components: { NoteSidebar, NoteDetail },
   data() {
     return {
       msg: "笔记页详情",
