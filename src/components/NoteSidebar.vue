@@ -36,6 +36,8 @@
 
 <script>
 import Notebooks from "@/apis/notebooks";
+import Notes from "@/apis/note";
+
 export default {
   created() {
     Notebooks.getALL().then((res) => {
@@ -45,24 +47,17 @@ export default {
   data() {
     return {
       notebooks: [],
-      notes: [
-        {
-          id: 11,
-          title: "第一个笔记",
-          updatedAtFriendly: "3分钟前",
-        },
-        {
-          id: 12,
-          title: "第二个笔记",
-          updatedAtFriendly: "3分钟前",
-        },
-      ],
+      notes: [],
     };
   },
 
   methods: {
-    handleCommand(command) {
-      console.log(command);
+    handleCommand({ notebookId }) {
+      if (notebookId != "trash") {
+        Notes.getALL({ notebookId }).then((res) => {
+          this.notes = res.data;
+        });
+      }
     },
   },
 };
