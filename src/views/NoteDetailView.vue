@@ -1,7 +1,7 @@
 <template>
   <div class="noteDetail">
     <note-sidebar />
-    <h1>{{ msg }}:{{ $route.query.noteId }}</h1>
+    <h1>{{ msg }}:{{ $route.query.notebookId }}</h1>
   </div>
 </template>
 

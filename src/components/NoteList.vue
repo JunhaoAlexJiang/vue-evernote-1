@@ -10,22 +10,22 @@
         <h3>笔记本列表({{ noteList.length }})</h3>
         <div class="book-list">
           <router-link
-            v-for="note in noteList"
-            :key="note.id"
-            :to="`/note?noteId=${note.id}`"
+            v-for="notebook in noteList"
+            :key="notebook.id"
+            :to="`/note?notebookId=${notebook.id}`"
             class="notebook"
           >
             <div>
               <span class="el-icon-notebook-2"></span>
-              {{ note.title }}
-              <span>{{ note.noteCounts }}</span>
-              <span class="action" @click.stop.prevent="onEdit(note)"
+              {{ notebook.title }}
+              <span>{{ notebook.noteCounts }}</span>
+              <span class="action" @click.stop.prevent="onEdit(notebook)"
                 >编辑</span
               >
-              <span class="action" @click.stop.prevent="onDelete(note)"
+              <span class="action" @click.stop.prevent="onDelete(notebook)"
                 >删除</span
               >
-              <span class="date">{{ note.friendlyCreatedAt }}</span>
+              <span class="date">{{ notebook.friendlyCreatedAt }}</span>
             </div>
           </router-link>
         </div>
@@ -77,21 +77,21 @@ export default {
     },
 
     //编辑笔记按钮功能实现
-    onEdit(note) {
+    onEdit(notebook) {
       let title = "";
       this.$prompt("输入新的笔记本标题", "修改笔记本标题", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         inputPattern: /^.{1,30}$/,
-        inputValue: note.title,
+        inputValue: notebook.title,
         inputErrorMessage: "标题不能为空,且不超过30个字符",
       })
         .then(({ value }) => {
           title = value;
-          return notebooks.updateNotebook(note.id, { title });
+          return notebooks.updateNotebook(notebook.id, { title });
         })
         .then((res) => {
-          note.title = title;
+          notebook.title = title;
           this.$message({
             type: "success",
             message: res.msg,
@@ -100,7 +100,7 @@ export default {
     },
 
     //删除笔记按钮功能实现
-    onDelete(note) {
+    onDelete(notebook) {
       this.$confirm("删除该笔记,是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -110,8 +110,8 @@ export default {
           type: "success",
           message: "删除成功!",
         });
-        notebooks.deleteNotebook(note.id).then(() => {
-          this.noteList.splice(this.noteList.indexOf(note), 1);
+        notebooks.deleteNotebook(notebook.id).then(() => {
+          this.noteList.splice(this.noteList.indexOf(notebook), 1);
         });
       });
     },
