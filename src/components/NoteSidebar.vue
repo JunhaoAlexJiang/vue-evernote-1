@@ -25,7 +25,7 @@
     </div>
     <ul class="notes">
       <li v-for="note in notes" :key="note.id">
-        <router-link :to="`/note?noteId=${note.id}& notebookId=${curBook.id}`">
+        <router-link :to="`/note?noteId=${note.id}&notebookId=${curBook.id}`">
           <span class="date">{{ note.updatedAtFriendly }}</span>
           <span class="title">{{ note.title }}</span>
         </router-link>
