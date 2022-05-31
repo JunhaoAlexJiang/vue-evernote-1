@@ -1,5 +1,5 @@
 <template>
-  <div class="noteDetail">
+  <div class="noteDetailView">
     <note-sidebar />
     <note-detail />
   </div>
@@ -9,12 +9,11 @@
 import auth from "@/apis/auth";
 import NoteSidebar from "@/components/NoteSidebar.vue";
 import NoteDetail from "@/components/NoteDetail.vue";
+
 export default {
   components: { NoteSidebar, NoteDetail },
   data() {
-    return {
-      msg: "笔记页详情",
-    };
+    return {};
   },
 
   created() {
@@ -28,7 +27,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.noteDetail {
+.noteDetailView {
   display: flex;
+  align-items: stretch;
+  background-color: #fff;
+  flex: 1;
 }
 </style>
