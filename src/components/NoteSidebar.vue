@@ -1,6 +1,6 @@
 <template>
   <div class="note-sidebar">
-    <span class="btn add-note">添加笔记</span>
+    <span class="btn add-note" @click="addNote">添加笔记</span>
     <el-dropdown
       class="notebook-title"
       @command="handleCommand"
@@ -68,6 +68,12 @@ export default {
       );
       Notes.getALL({ notebookId }).then((res) => {
         this.notes = res.data;
+      });
+    },
+
+    addNote() {
+      Notes.addNotebook({ notebookId: this.curBook.id }).then((res) => {
+        this.notes.unshift(res.data);
       });
     },
   },
