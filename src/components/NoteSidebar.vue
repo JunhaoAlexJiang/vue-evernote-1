@@ -48,8 +48,13 @@ export default {
         ) ||
         this.notebooks[0] ||
         {};
+      return Notes.getALL({ notebookId: this.curBook.id }).then((res) => {
+        this.notes = res.data;
+        this.$emit("update:note", this.notes);
+      });
     });
   },
+
   data() {
     return {
       notebooks: [],
@@ -68,6 +73,7 @@ export default {
       );
       Notes.getALL({ notebookId }).then((res) => {
         this.notes = res.data;
+        this.$emit("update:note", this.notes);
       });
     },
 
