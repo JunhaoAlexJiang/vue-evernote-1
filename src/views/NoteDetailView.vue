@@ -45,6 +45,7 @@ import auth from "@/apis/auth";
 import _ from "lodash";
 import NoteSidebar from "@/components/NoteSidebar.vue";
 import Notes from "@/apis/note";
+import Bus from "@/helper/bus";
 
 export default {
   components: { NoteSidebar },
@@ -62,6 +63,21 @@ export default {
         this.$router.push({ path: "/login" });
       }
     });
+
+    Bus.$once("update:note", (value) => {
+      this.curNote =
+        value.find((note) => note.id == this.$route.query.noteId) || {};
+    });
+  },
+
+  watch: {
+    notes() {
+      if (this.notes.length !== 0) {
+        this.curNote = this.notes[0];
+      } else {
+        this.curNote = {};
+      }
+    },
   },
 
   beforeRouteUpdate(to, from, next) {

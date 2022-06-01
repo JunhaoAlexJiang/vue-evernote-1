@@ -37,6 +37,7 @@
 <script>
 import Notebooks from "@/apis/notebooks";
 import Notes from "@/apis/note";
+import Bus from "@/helper/bus";
 
 export default {
   created() {
@@ -51,6 +52,7 @@ export default {
       return Notes.getALL({ notebookId: this.curBook.id }).then((res) => {
         this.notes = res.data;
         this.$emit("update:note", this.notes);
+        Bus.$emit("update:note", this.notes);
       });
     });
   },
