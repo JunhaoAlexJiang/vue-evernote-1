@@ -82,7 +82,6 @@ export default {
     addNote() {
       Notes.addNotebook({ notebookId: this.curBook.id }).then((res) => {
         this.notes.unshift(res.data);
-        this.$message.success(res.msg);
       });
     },
   },
