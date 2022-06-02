@@ -9,8 +9,16 @@
           <span> {{ statusText }}</span>
         </div>
         <div class="icon">
-          <span class="iconFont el-icon-delete" @click="deleteNote"></span>
-          <span class="iconFont el-icon-full-screen"></span>
+          <span
+            class="iconFont el-icon-delete"
+            title="删除笔记"
+            @click="deleteNote"
+          ></span>
+          <span
+            class="iconFont el-icon-full-screen"
+            @click="isShowPreview = !isShowPreview"
+            title="预览笔记"
+          ></span>
         </div>
       </div>
       <div class="note-title">
@@ -24,7 +32,7 @@
       </div>
       <div class="editor">
         <textarea
-          v-show="true"
+          v-show="!isShowPreview"
           v-model="curNote.content"
           @input="updateNote"
           @keydown="statusText = '正在输入...'"
@@ -33,7 +41,7 @@
         <div
           class="preview markdown-body"
           v-html="previewContent"
-          v-show="false"
+          v-show="isShowPreview"
         ></div>
       </div>
     </div>
@@ -46,6 +54,9 @@ import _ from "lodash";
 import NoteSidebar from "@/components/NoteSidebar.vue";
 import Notes from "@/apis/note";
 import Bus from "@/helper/bus";
+import MarkdownIt from "markdown-it";
+
+let md = new MarkdownIt();
 
 export default {
   components: { NoteSidebar },
@@ -54,6 +65,7 @@ export default {
       curNote: {},
       notes: [],
       statusText: "",
+      isShowPreview: false,
     };
   },
 
@@ -77,6 +89,12 @@ export default {
       } else {
         this.curNote = {};
       }
+    },
+  },
+
+  computed: {
+    previewContent() {
+      return md.render(this.curNote.content || "");
     },
   },
 
@@ -117,5 +135,11 @@ export default {
   align-items: stretch;
   background-color: #fff;
   flex: 1;
+}
+
+.markdown-body {
+  ::v-deep * {
+    text-align: left;
+  }
 }
 </style>
