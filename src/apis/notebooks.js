@@ -33,6 +33,16 @@ export default {
     return request(URL.DELETE.replace(":id", notebookId), "DELETE");
   },
   addNotebook({ title = "" } = { title: "" }) {
-    return request(URL.ADD, "POST", { title });
+    return new Promise((resolve, reject) => {
+      request(URL.ADD, "POST", { title })
+        .then((res) => {
+          res.data.createdAtFriendly = friendlyDate(res.data.createdAt);
+          res.data.updatedAtFriendly = friendlyDate(res.data.updatedAt);
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   },
 };

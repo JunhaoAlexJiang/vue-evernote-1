@@ -7,10 +7,10 @@
     </header>
     <main>
       <div class="layout">
-        <h3>笔记本列表({{ noteList.length }})</h3>
+        <h3>笔记本列表({{ notebooks.length }})</h3>
         <div class="book-list">
           <router-link
-            v-for="notebook in noteList"
+            v-for="notebook in notebooks"
             :key="notebook.id"
             :to="`/note?notebookId=${notebook.id}`"
             class="notebook"
@@ -35,23 +35,28 @@
 </template>
 
 <script>
-import notebooks from "@/apis/notebooks";
-import { friendlyDate } from "@/helper/time";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
-    return {
-      noteList: [],
-    };
+    return {};
   },
   created() {
     //渲染数据库数据
-    notebooks.getALL().then((res) => {
-      this.noteList = res.data;
-      console.log(res.data);
-    });
+    this.$store.dispatch("notebook/getNotebooks");
   },
+
+  computed: {
+    ...mapGetters("notebook", ["notebooks"]),
+  },
+
   methods: {
+    ...mapActions("notebook", [
+      "addNotebook",
+      "updateNotebook",
+      "deleteNotebook",
+    ]),
+
     //新增笔记按钮功能实现
     onAddNote() {
       let title = "";
@@ -61,19 +66,10 @@ export default {
         cancelButtonText: "取消",
         inputPattern: /^.{1,30}$/,
         inputErrorMessage: "标题不能为空,且不超过30个字符",
-      })
-        .then(({ value }) => {
-          title = value;
-          return notebooks.addNotebook({ title });
-        })
-        .then((res) => {
-          res.data.friendlyCreatedAt = friendlyDate(res.data.createdAt);
-          this.noteList.unshift(res.data);
-          this.$message({
-            type: "success",
-            message: res.msg,
-          });
-        });
+      }).then(({ value }) => {
+        title = value;
+        this.addNotebook({ title });
+      });
     },
 
     //编辑笔记按钮功能实现
@@ -85,18 +81,10 @@ export default {
         inputPattern: /^.{1,30}$/,
         inputValue: notebook.title,
         inputErrorMessage: "标题不能为空,且不超过30个字符",
-      })
-        .then(({ value }) => {
-          title = value;
-          return notebooks.updateNotebook(notebook.id, { title });
-        })
-        .then((res) => {
-          notebook.title = title;
-          this.$message({
-            type: "success",
-            message: res.msg,
-          });
-        });
+      }).then(({ value }) => {
+        title = value;
+        this.updateNotebook({ notebookId: notebook.id, title: title });
+      });
     },
 
     //删除笔记按钮功能实现
@@ -106,13 +94,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        this.$message({
-          type: "success",
-          message: "删除成功!",
-        });
-        notebooks.deleteNotebook(notebook.id).then(() => {
-          this.noteList.splice(this.noteList.indexOf(notebook), 1);
-        });
+        this.deleteNotebook({ notebookId: notebook.id });
       });
     },
   },
